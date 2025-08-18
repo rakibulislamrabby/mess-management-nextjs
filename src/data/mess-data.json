@@ -1,0 +1,155 @@
+{
+  "messes": [
+    {
+      "id": "mess-1",
+      "name": "Student Mess Alpha",
+      "address": "123 University Road, Dhaka",
+      "adminId": "user-1",
+      "createdAt": "2024-01-01",
+      "description": "A comfortable mess for university students"
+    },
+    {
+      "id": "mess-2", 
+      "name": "Office Mess Beta",
+      "address": "456 Corporate Avenue, Dhaka",
+      "adminId": "user-2",
+      "createdAt": "2024-01-05",
+      "description": "Mess for office employees"
+    }
+  ],
+  "users": [
+    {
+      "id": "user-1",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "password": "password123",
+      "role": "admin",
+      "messId": "mess-1",
+      "balance": 1200,
+      "joinedAt": "2024-01-01"
+    },
+    {
+      "id": "user-2",
+      "name": "Jane Smith", 
+      "email": "jane@example.com",
+      "password": "password123",
+      "role": "admin",
+      "messId": "mess-2",
+      "balance": 800,
+      "joinedAt": "2024-01-05"
+    },
+    {
+      "id": "user-3",
+      "name": "Mike Johnson",
+      "email": "mike@example.com", 
+      "password": "password123",
+      "role": "member",
+      "messId": "mess-1",
+      "balance": -300,
+      "joinedAt": "2024-01-10"
+    },
+    {
+      "id": "user-4",
+      "name": "Sarah Wilson",
+      "email": "sarah@example.com",
+      "password": "password123", 
+      "role": "member",
+      "messId": "mess-1",
+      "balance": 150,
+      "joinedAt": "2024-01-12"
+    }
+  ],
+  "meals": [
+    {
+      "id": "meal-1",
+      "userId": "user-1",
+      "messId": "mess-1",
+      "date": "2024-01-15",
+      "meal": "Lunch",
+      "time": "12:00 PM"
+    },
+    {
+      "id": "meal-2", 
+      "userId": "user-3",
+      "messId": "mess-1",
+      "date": "2024-01-15",
+      "meal": "Dinner",
+      "time": "8:00 PM"
+    },
+    {
+      "id": "meal-3",
+      "userId": "user-4", 
+      "messId": "mess-1",
+      "date": "2024-01-14",
+      "meal": "Breakfast",
+      "time": "8:00 AM"
+    }
+  ],
+  "deposits": [
+    {
+      "id": "deposit-1",
+      "userId": "user-1",
+      "messId": "mess-1", 
+      "amount": 2000,
+      "date": "2024-01-15",
+      "method": "Cash",
+      "note": "Monthly deposit"
+    },
+    {
+      "id": "deposit-2",
+      "userId": "user-3",
+      "messId": "mess-1",
+      "amount": 1500,
+      "date": "2024-01-14", 
+      "method": "Bank Transfer",
+      "note": "Advance payment"
+    },
+    {
+      "id": "deposit-3",
+      "userId": "user-4",
+      "messId": "mess-1",
+      "amount": 1800,
+      "date": "2024-01-13",
+      "method": "Cash", 
+      "note": "Regular deposit"
+    }
+  ],
+  "bazaar": [
+    {
+      "id": "bazaar-1",
+      "messId": "mess-1",
+      "item": "Rice",
+      "cost": 1200,
+      "date": "2024-01-15",
+      "buyer": "user-1",
+      "category": "Grains"
+    },
+    {
+      "id": "bazaar-2",
+      "messId": "mess-1", 
+      "item": "Vegetables",
+      "cost": 800,
+      "date": "2024-01-14",
+      "buyer": "user-3",
+      "category": "Vegetables"
+    },
+    {
+      "id": "bazaar-3",
+      "messId": "mess-1",
+      "item": "Fish",
+      "cost": 1500,
+      "date": "2024-01-13",
+      "buyer": "user-4",
+      "category": "Protein"
+    },
+    {
+      "id": "bazaar-4",
+      "messId": "mess-1",
+      "item": "Oil",
+      "cost": 400,
+      "date": "2024-01-12",
+      "buyer": "user-1",
+      "category": "Cooking"
+    }
+  ]
+}
