@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
@@ -18,6 +19,13 @@ export default function Navigation({ children }) {
     { href: "/bazaar", label: "Bazaar", icon: "🛒" },
     { href: "/deposits", label: "Deposits", icon: "💰" },
   ];
+
+  // Handle redirect for unauthenticated users - must be called before any conditional returns
+  useEffect(() => {
+    if (mounted && !isLoading && (!currentUser || !selectedMess)) {
+      router.push("/auth/signin");
+    }
+  }, [mounted, isLoading, currentUser, selectedMess, router]);
 
   // Don't show sidebar on auth pages
   if (pathname.startsWith('/auth') || pathname === '/') {
@@ -36,9 +44,16 @@ export default function Navigation({ children }) {
     );
   }
 
+  // Show loading while redirecting
   if (!currentUser || !selectedMess) {
-    router.push("/auth/signin");
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-2 text-muted-foreground">Redirecting to login...</p>
+        </div>
+      </div>
+    );
   }
 
   const handleLogout = () => {

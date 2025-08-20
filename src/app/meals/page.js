@@ -8,28 +8,41 @@ import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
+import dynamic from 'next/dynamic';
+
+// Dynamically import Recharts to avoid SSR issues
+const LineChart = dynamic(() => import('recharts').then(mod => mod.LineChart), { ssr: false });
+const Line = dynamic(() => import('recharts').then(mod => mod.Line), { ssr: false });
+const XAxis = dynamic(() => import('recharts').then(mod => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import('recharts').then(mod => mod.YAxis), { ssr: false });
+const CartesianGrid = dynamic(() => import('recharts').then(mod => mod.CartesianGrid), { ssr: false });
+const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
+const Legend = dynamic(() => import('recharts').then(mod => mod.Legend), { ssr: false });
+const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
 
 export default function MealsPage() {
   const { getMessData, addMeal } = useAuth();
   const [messData, setMessData] = useState(null);
   const [meals, setMeals] = useState([]);
   const [users, setUsers] = useState([]);
+  const [mounted, setMounted] = useState(false);
 
   const [newMeal, setNewMeal] = useState({
     member: "",
-    date: "",
+    date: new Date().toISOString().split('T')[0], // Default to today
     meal: "Breakfast",
-    time: "",
+    time: new Date().toTimeString().slice(0, 5), // Default to current time (HH:MM)
   });
 
   useEffect(() => {
+    setMounted(true);
     const data = getMessData();
     if (data) {
       setMessData(data);
       setMeals(data.meals);
       setUsers(data.users);
     }
-  }, [getMessData]);
+  }, []); // Removed getMessData from dependencies to prevent infinite re-renders
 
   const handleAddMeal = (e) => {
     e.preventDefault();
@@ -50,7 +63,12 @@ export default function MealsPage() {
         setMeals([...meals, addedMeal]);
         
         // Reset form
-        setNewMeal({ member: "", date: "", meal: "Breakfast", time: "" });
+        setNewMeal({ 
+          member: "", 
+          date: new Date().toISOString().split('T')[0], 
+          meal: "Breakfast", 
+          time: new Date().toTimeString().slice(0, 5) 
+        });
       }
     }
   };
@@ -60,6 +78,26 @@ export default function MealsPage() {
     const user = users.find(u => u.id === meal.userId);
     return { ...meal, member: user?.name || 'Unknown' };
   });
+
+  // Calculate meals per day for the last 7 days
+  const last7Days = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    return date.toISOString().split('T')[0];
+  }).reverse();
+
+  const mealsPerDay = last7Days.map(date => {
+    const dayMeals = meals.filter(meal => meal.date === date);
+    return {
+      date,
+      count: dayMeals.length,
+      breakfast: dayMeals.filter(meal => meal.meal === 'Breakfast').length,
+      lunch: dayMeals.filter(meal => meal.meal === 'Lunch').length,
+      dinner: dayMeals.filter(meal => meal.meal === 'Dinner').length
+    };
+  });
+
+  const maxMeals = Math.max(...mealsPerDay.map(day => day.count), 1);
 
   if (!messData) {
     return (
@@ -138,6 +176,104 @@ export default function MealsPage() {
               </Button>
             </div>
           </form>
+        </CardContent>
+      </Card>
+
+      {/* Meals Per Day Graph */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Meals Per Day</CardTitle>
+          <CardDescription>Daily meal consumption over the last 7 days</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {/* Line Graph */}
+            <div className="h-64">
+              {mounted ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart
+                    data={mealsPerDay}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis 
+                      dataKey="date" 
+                      tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    />
+                    <YAxis />
+                    <Tooltip 
+                      labelFormatter={(date) => new Date(date).toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                      formatter={(value, name) => [value, name]}
+                    />
+                    <Legend />
+                    <Line 
+                      type="monotone" 
+                      dataKey="breakfast" 
+                      stroke="#3b82f6" 
+                      strokeWidth={2}
+                      dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6 }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="lunch" 
+                      stroke="#eab308" 
+                      strokeWidth={2}
+                      dot={{ fill: '#eab308', strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6 }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="dinner" 
+                      stroke="#ef4444" 
+                      strokeWidth={2}
+                      dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                    <p className="mt-2 text-muted-foreground">Loading chart...</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Summary Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+              <div className="text-center p-4 bg-muted rounded-lg">
+                <div className="text-2xl font-bold text-blue-600">
+                  {mealsPerDay.reduce((sum, day) => sum + day.breakfast, 0)}
+                </div>
+                <div className="text-sm text-muted-foreground">Total Breakfast</div>
+              </div>
+              <div className="text-center p-4 bg-muted rounded-lg">
+                <div className="text-2xl font-bold text-yellow-600">
+                  {mealsPerDay.reduce((sum, day) => sum + day.lunch, 0)}
+                </div>
+                <div className="text-sm text-muted-foreground">Total Lunch</div>
+              </div>
+              <div className="text-center p-4 bg-muted rounded-lg">
+                <div className="text-2xl font-bold text-red-600">
+                  {mealsPerDay.reduce((sum, day) => sum + day.dinner, 0)}
+                </div>
+                <div className="text-sm text-muted-foreground">Total Dinner</div>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 

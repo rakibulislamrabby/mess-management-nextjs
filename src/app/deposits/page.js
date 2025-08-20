@@ -18,7 +18,7 @@ export default function DepositsPage() {
   const [newDeposit, setNewDeposit] = useState({
     member: "",
     amount: "",
-    date: "",
+    date: new Date().toISOString().split('T')[0], // Default to today
     method: "Cash",
     note: "",
   });
@@ -30,7 +30,7 @@ export default function DepositsPage() {
       setDeposits(data.deposits);
       setUsers(data.users);
     }
-  }, [getMessData]);
+  }, []); // Removed getMessData from dependencies to prevent infinite re-renders
 
   const handleAddDeposit = (e) => {
     e.preventDefault();
@@ -52,7 +52,13 @@ export default function DepositsPage() {
         setDeposits([...deposits, addedDeposit]);
         
         // Reset form
-        setNewDeposit({ member: "", amount: "", date: "", method: "Cash", note: "" });
+        setNewDeposit({ 
+          member: "", 
+          amount: "", 
+          date: new Date().toISOString().split('T')[0], 
+          method: "Cash", 
+          note: "" 
+        });
       }
     }
   };

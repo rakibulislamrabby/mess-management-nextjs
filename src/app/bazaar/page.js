@@ -18,7 +18,7 @@ export default function BazaarPage() {
   const [newItem, setNewItem] = useState({
     item: "",
     cost: "",
-    date: "",
+    date: new Date().toISOString().split('T')[0], // Default to today
     buyer: "",
     category: "Grains",
   });
@@ -30,7 +30,7 @@ export default function BazaarPage() {
       setBazaarItems(data.bazaar);
       setUsers(data.users);
     }
-  }, [getMessData]);
+  }, []); // Removed getMessData from dependencies to prevent infinite re-renders
 
   const handleAddItem = (e) => {
     e.preventDefault();
@@ -52,7 +52,13 @@ export default function BazaarPage() {
         setBazaarItems([...bazaarItems, addedItem]);
         
         // Reset form
-        setNewItem({ item: "", cost: "", date: "", buyer: "", category: "Grains" });
+        setNewItem({ 
+          item: "", 
+          cost: "", 
+          date: new Date().toISOString().split('T')[0], 
+          buyer: "", 
+          category: "Grains" 
+        });
       }
     }
   };

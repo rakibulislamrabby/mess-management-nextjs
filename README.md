@@ -10,8 +10,8 @@ A comprehensive mess management system built with Next.js and Tailwind CSS for t
    ```
 
 2. **Run development server:**
-   ```bash
-   npm run dev
+```bash
+npm run dev
    ```
 
 3. **Open your browser:**
