@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
@@ -11,6 +12,13 @@ export default function Navigation({ children }) {
   const pathname = usePathname();
   const router = useRouter();
   const { currentUser, selectedMess, logout, isLoading, mounted } = useAuth();
+
+  // Handle navigation after component mounts
+  useEffect(() => {
+    if (mounted && !isLoading && (!currentUser || !selectedMess)) {
+      router.push("/auth/signin");
+    }
+  }, [mounted, isLoading, currentUser, selectedMess, router]);
 
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: "📊" },
@@ -36,8 +44,8 @@ export default function Navigation({ children }) {
     );
   }
 
+  // Don't render navigation if not authenticated - let useEffect handle redirect
   if (!currentUser || !selectedMess) {
-    router.push("/auth/signin");
     return null;
   }
 
