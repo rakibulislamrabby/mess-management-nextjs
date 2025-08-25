@@ -111,20 +111,20 @@ export default function MealsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Add New Meal Form */}
       <Card>
         <CardHeader>
-          <CardTitle>Add New Meal</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Add New Meal</CardTitle>
           <CardDescription>Record a new meal entry for a member</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleAddMeal} className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <form onSubmit={handleAddMeal} className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
             <div className="space-y-2">
-              <Label htmlFor="member">Member Name</Label>
+              <Label htmlFor="member" className="text-sm sm:text-base">Member Name</Label>
               <select
                 id="member"
-                className="w-full p-2 border border-input rounded-md bg-background text-foreground"
+                className="w-full p-2 sm:p-3 border border-input rounded-md bg-background text-foreground text-sm sm:text-base"
                 value={newMeal.member}
                 onChange={(e) => setNewMeal({ ...newMeal, member: e.target.value })}
                 required
@@ -138,20 +138,21 @@ export default function MealsPage() {
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
+              <Label htmlFor="date" className="text-sm sm:text-base">Date</Label>
               <Input
                 id="date"
                 type="date"
                 value={newMeal.date}
                 onChange={(e) => setNewMeal({ ...newMeal, date: e.target.value })}
                 required
+                className="text-sm sm:text-base"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="meal">Meal Type</Label>
+              <Label htmlFor="meal" className="text-sm sm:text-base">Meal Type</Label>
               <select
                 id="meal"
-                className="w-full p-2 border border-input rounded-md bg-background text-foreground"
+                className="w-full p-2 sm:p-3 border border-input rounded-md bg-background text-foreground text-sm sm:text-base"
                 value={newMeal.meal}
                 onChange={(e) => setNewMeal({ ...newMeal, meal: e.target.value })}
               >
@@ -161,17 +162,18 @@ export default function MealsPage() {
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="time">Time</Label>
+              <Label htmlFor="time" className="text-sm sm:text-base">Time</Label>
               <Input
                 id="time"
                 type="time"
                 value={newMeal.time}
                 onChange={(e) => setNewMeal({ ...newMeal, time: e.target.value })}
                 required
+                className="text-sm sm:text-base"
               />
             </div>
-            <div className="md:col-span-4">
-              <Button type="submit" className="w-full md:w-auto">
+            <div className="sm:col-span-2 lg:col-span-4">
+              <Button type="submit" className="w-full sm:w-auto h-10 sm:h-11">
                 Add Meal
               </Button>
             </div>
@@ -182,13 +184,13 @@ export default function MealsPage() {
       {/* Meals Per Day Graph */}
       <Card>
         <CardHeader>
-          <CardTitle>Meals Per Day</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Meals Per Day</CardTitle>
           <CardDescription>Daily meal consumption over the last 7 days</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {/* Line Graph */}
-            <div className="h-64">
+            <div className="h-48 sm:h-64">
               {mounted ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
@@ -204,8 +206,9 @@ export default function MealsPage() {
                     <XAxis 
                       dataKey="date" 
                       tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                      fontSize={12}
                     />
-                    <YAxis />
+                    <YAxis fontSize={12} />
                     <Tooltip 
                       labelFormatter={(date) => new Date(date).toLocaleDateString('en-US', { 
                         weekday: 'long', 
@@ -253,24 +256,24 @@ export default function MealsPage() {
             </div>
 
             {/* Summary Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-              <div className="text-center p-4 bg-muted rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+              <div className="text-center p-3 sm:p-4 bg-muted rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-blue-600">
                   {mealsPerDay.reduce((sum, day) => sum + day.breakfast, 0)}
                 </div>
-                <div className="text-sm text-muted-foreground">Total Breakfast</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Total Breakfast</div>
               </div>
-              <div className="text-center p-4 bg-muted rounded-lg">
-                <div className="text-2xl font-bold text-yellow-600">
+              <div className="text-center p-3 sm:p-4 bg-muted rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-yellow-600">
                   {mealsPerDay.reduce((sum, day) => sum + day.lunch, 0)}
                 </div>
-                <div className="text-sm text-muted-foreground">Total Lunch</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Total Lunch</div>
               </div>
-              <div className="text-center p-4 bg-muted rounded-lg">
-                <div className="text-2xl font-bold text-red-600">
+              <div className="text-center p-3 sm:p-4 bg-muted rounded-lg">
+                <div className="text-xl sm:text-2xl font-bold text-red-600">
                   {mealsPerDay.reduce((sum, day) => sum + day.dinner, 0)}
                 </div>
-                <div className="text-sm text-muted-foreground">Total Dinner</div>
+                <div className="text-xs sm:text-sm text-muted-foreground">Total Dinner</div>
               </div>
             </div>
           </div>
@@ -280,38 +283,45 @@ export default function MealsPage() {
       {/* Meals Table */}
       <Card>
         <CardHeader>
-          <CardTitle>All Meals</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">All Meals</CardTitle>
           <CardDescription>Complete list of meal entries</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Member</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Meal</TableHead>
-                <TableHead>Time</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mealsWithMembers.map((meal) => (
-                <TableRow key={meal.id}>
-                  <TableCell className="font-medium">{meal.member}</TableCell>
-                  <TableCell>{meal.date}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{meal.meal}</Badge>
-                  </TableCell>
-                  <TableCell>{meal.time}</TableCell>
-                  <TableCell>
-                    <Button variant="outline" size="sm">
-                      Edit
-                    </Button>
-                  </TableCell>
+          <div className="table-responsive">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-xs sm:text-sm">Member</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Date</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Meal</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Time</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {mealsWithMembers.map((meal) => (
+                  <TableRow key={meal.id}>
+                    <TableCell>
+                      <div className="min-w-0">
+                        <div className="font-medium text-sm sm:text-base truncate">{meal.member}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground sm:hidden">{meal.date}</div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm">{meal.date}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="text-xs sm:text-sm">{meal.meal}</Badge>
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm">{meal.time}</TableCell>
+                    <TableCell>
+                      <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

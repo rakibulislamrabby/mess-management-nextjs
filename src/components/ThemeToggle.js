@@ -12,7 +12,7 @@ export default function ThemeToggle() {
       <Button
         variant="outline"
         size="sm"
-        className="w-10 h-10 p-0"
+        className="w-9 h-9 sm:w-10 sm:h-10 p-0"
         disabled
       >
         <div className="h-4 w-4 animate-pulse bg-muted-foreground rounded" />
@@ -26,7 +26,7 @@ export default function ThemeToggle() {
       variant="outline"
       size="sm"
       onClick={toggleTheme}
-      className="w-10 h-10 p-0"
+      className="w-9 h-9 sm:w-10 sm:h-10 p-0"
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
       {isDark ? (

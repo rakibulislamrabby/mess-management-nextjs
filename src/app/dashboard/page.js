@@ -67,16 +67,16 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Meals</CardTitle>
             <Badge variant="secondary">{totalMeals}</Badge>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{totalMeals}</div>
+            <div className="text-xl sm:text-2xl font-bold">{totalMeals}</div>
             <p className="text-xs text-muted-foreground">This month</p>
           </CardContent>
         </Card>
@@ -87,7 +87,7 @@ export default function Dashboard() {
             <Badge variant="secondary">৳{totalDeposits}</Badge>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">৳{totalDeposits.toLocaleString()}</div>
+            <div className="text-xl sm:text-2xl font-bold">৳{totalDeposits.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">Total collected</p>
           </CardContent>
         </Card>
@@ -98,7 +98,7 @@ export default function Dashboard() {
             <Badge variant="secondary">৳{totalBazaarCost}</Badge>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">৳{totalBazaarCost.toLocaleString()}</div>
+            <div className="text-xl sm:text-2xl font-bold">৳{totalBazaarCost.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground">Total spent</p>
           </CardContent>
         </Card>
@@ -111,7 +111,7 @@ export default function Dashboard() {
             </Badge>
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${currentBalance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <div className={`text-xl sm:text-2xl font-bold ${currentBalance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
               ৳{currentBalance.toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">Available balance</p>
@@ -120,76 +120,80 @@ export default function Dashboard() {
       </div>
 
       {/* Member Summary and Recent Activities */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
         {/* Member Summary */}
         <Card>
           <CardHeader>
-            <CardTitle>Member Summary</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">Member Summary</CardTitle>
             <CardDescription>All members and their current status</CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Member</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Balance</TableHead>
-                  <TableHead>Meals</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users.map((member) => {
-                  const memberMeals = meals.filter(meal => meal.userId === member.id).length;
-                  return (
-                    <TableRow key={member.id}>
-                      <TableCell>
-                        <div className="flex items-center space-x-2">
-                          <Avatar className="h-8 w-8">
-                            <AvatarImage src={`https://avatar.vercel.sh/${member.id}`} />
-                            <AvatarFallback>{member.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <div className="font-medium">{member.name}</div>
-                            <div className="text-sm text-muted-foreground">{member.email}</div>
+            <div className="table-responsive">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-xs sm:text-sm">Member</TableHead>
+                    <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Role</TableHead>
+                    <TableHead className="text-xs sm:text-sm">Balance</TableHead>
+                    <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Meals</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {users.map((member) => {
+                    const memberMeals = meals.filter(meal => meal.userId === member.id).length;
+                    return (
+                      <TableRow key={member.id}>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            <Avatar className="h-6 w-6 sm:h-8 sm:w-8">
+                              <AvatarImage src={`https://avatar.vercel.sh/${member.id}`} />
+                              <AvatarFallback className="text-xs sm:text-sm">
+                                {member.name.split(' ').map(n => n[0]).join('')}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="min-w-0">
+                              <div className="font-medium text-sm sm:text-base truncate">{member.name}</div>
+                              <div className="text-xs sm:text-sm text-muted-foreground truncate">{member.email}</div>
+                            </div>
                           </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={member.role === 'admin' ? 'default' : 'secondary'}>
-                          {member.role}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <span className={member.balance >= 0 ? 'text-green-600' : 'text-red-600'}>
-                          ৳{member.balance.toLocaleString()}
-                        </span>
-                      </TableCell>
-                      <TableCell>{memberMeals}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell">
+                          <Badge variant={member.role === 'admin' ? 'default' : 'secondary'} className="text-xs">
+                            {member.role}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <span className={`text-sm sm:text-base ${member.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            ৳{member.balance.toLocaleString()}
+                          </span>
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell text-sm">{memberMeals}</TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
 
         {/* Recent Activities */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Recent Meals */}
           <Card>
             <CardHeader>
-              <CardTitle>Recent Meals Added</CardTitle>
+              <CardTitle className="text-lg sm:text-xl">Recent Meals Added</CardTitle>
               <CardDescription>Latest meal entries</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {recentMeals.map((meal) => (
                   <div key={meal.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                    <div>
-                      <div className="font-medium">{meal.member}</div>
-                      <div className="text-sm text-muted-foreground">{meal.meal} • {meal.date}</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-sm sm:text-base truncate">{meal.member}</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground truncate">{meal.meal} • {meal.date}</div>
                     </div>
-                    <Badge variant="outline">{meal.meal}</Badge>
+                    <Badge variant="outline" className="text-xs sm:text-sm ml-2 flex-shrink-0">{meal.meal}</Badge>
                   </div>
                 ))}
               </div>
@@ -199,19 +203,19 @@ export default function Dashboard() {
           {/* Recent Bazaar Costs */}
           <Card>
             <CardHeader>
-              <CardTitle>Recent Bazaar Costs</CardTitle>
+              <CardTitle className="text-lg sm:text-xl">Recent Bazaar Costs</CardTitle>
               <CardDescription>Latest shopping expenses</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {recentBazaar.map((item) => (
                   <div key={item.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                    <div>
-                      <div className="font-medium">{item.item}</div>
-                      <div className="text-sm text-muted-foreground">{item.buyer} • {item.date}</div>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-medium text-sm sm:text-base truncate">{item.item}</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground truncate">{item.buyer} • {item.date}</div>
                     </div>
-                    <div className="text-right">
-                      <div className="font-medium">৳{item.cost.toLocaleString()}</div>
+                    <div className="text-right ml-2 flex-shrink-0">
+                      <div className="font-medium text-sm sm:text-base">৳{item.cost.toLocaleString()}</div>
                     </div>
                   </div>
                 ))}
@@ -224,16 +228,16 @@ export default function Dashboard() {
       {/* Daily Meal Statistics */}
       <Card>
         <CardHeader>
-          <CardTitle>Daily Meal Statistics</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Daily Meal Statistics</CardTitle>
           <CardDescription>Meal consumption over the last 7 days</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-64 flex items-end justify-center space-x-2">
+          <div className="h-48 sm:h-64 flex items-end justify-center space-x-1 sm:space-x-2 overflow-x-auto">
             {dailyMeals.map((count, index) => (
-              <div key={index} className="flex flex-col items-center">
+              <div key={index} className="flex flex-col items-center min-w-0">
                 <div 
-                  className="bg-primary rounded-t w-8"
-                  style={{ height: `${(count / Math.max(...dailyMeals, 1)) * 200}px` }}
+                  className="bg-primary rounded-t w-4 sm:w-8"
+                  style={{ height: `${(count / Math.max(...dailyMeals, 1)) * 150}px` }}
                 ></div>
                 <div className="text-xs mt-2">{count}</div>
                 <div className="text-xs text-muted-foreground">Day {index + 1}</div>
@@ -246,7 +250,7 @@ export default function Dashboard() {
       {/* Member Balances Graph */}
       <Card>
         <CardHeader>
-          <CardTitle>Member Balances</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Member Balances</CardTitle>
           <CardDescription>Current balance distribution</CardDescription>
         </CardHeader>
         <CardContent>
@@ -254,15 +258,15 @@ export default function Dashboard() {
             {users.map((member) => {
               const maxBalance = Math.max(...users.map(u => Math.abs(u.balance)), 1);
               return (
-                <div key={member.id} className="flex items-center space-x-4">
-                  <div className="w-32 text-sm font-medium">{member.name}</div>
+                <div key={member.id} className="flex items-center space-x-2 sm:space-x-4">
+                  <div className="w-20 sm:w-32 text-xs sm:text-sm font-medium truncate">{member.name}</div>
                   <div className="flex-1 bg-muted rounded-full h-2">
                     <div 
                       className={`h-2 rounded-full ${member.balance >= 0 ? 'bg-green-500' : 'bg-red-500'}`}
                       style={{ width: `${Math.min(Math.abs(member.balance) / maxBalance * 100, 100)}%` }}
                     ></div>
                   </div>
-                  <div className={`w-20 text-sm font-medium ${member.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <div className={`w-16 sm:w-20 text-xs sm:text-sm font-medium ${member.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                     ৳{member.balance.toLocaleString()}
                   </div>
                 </div>

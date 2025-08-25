@@ -83,35 +83,36 @@ export default function BazaarPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Total Cost Display */}
       <div className="flex justify-end">
         <div className="text-right">
-          <div className="text-2xl font-bold text-red-600">৳{totalCost.toLocaleString()}</div>
-          <div className="text-sm text-muted-foreground">Total Bazaar Cost</div>
+          <div className="text-xl sm:text-2xl font-bold text-red-600">৳{totalCost.toLocaleString()}</div>
+          <div className="text-xs sm:text-sm text-muted-foreground">Total Bazaar Cost</div>
         </div>
       </div>
 
       {/* Add New Item Form */}
       <Card>
         <CardHeader>
-          <CardTitle>Add New Bazaar Item</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Add New Bazaar Item</CardTitle>
           <CardDescription>Record a new shopping expense</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleAddItem} className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <form onSubmit={handleAddItem} className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-5 sm:gap-4">
             <div className="space-y-2">
-              <Label htmlFor="item">Item Name</Label>
+              <Label htmlFor="item" className="text-sm sm:text-base">Item Name</Label>
               <Input
                 id="item"
                 placeholder="Enter item name"
                 value={newItem.item}
                 onChange={(e) => setNewItem({ ...newItem, item: e.target.value })}
                 required
+                className="text-sm sm:text-base"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="cost">Cost (৳)</Label>
+              <Label htmlFor="cost" className="text-sm sm:text-base">Cost (৳)</Label>
               <Input
                 id="cost"
                 type="number"
@@ -119,23 +120,25 @@ export default function BazaarPage() {
                 value={newItem.cost}
                 onChange={(e) => setNewItem({ ...newItem, cost: e.target.value })}
                 required
+                className="text-sm sm:text-base"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
+              <Label htmlFor="date" className="text-sm sm:text-base">Date</Label>
               <Input
                 id="date"
                 type="date"
                 value={newItem.date}
                 onChange={(e) => setNewItem({ ...newItem, date: e.target.value })}
                 required
+                className="text-sm sm:text-base"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="buyer">Buyer</Label>
+              <Label htmlFor="buyer" className="text-sm sm:text-base">Buyer</Label>
               <select
                 id="buyer"
-                className="w-full p-2 border border-input rounded-md bg-background text-foreground"
+                className="w-full p-2 sm:p-3 border border-input rounded-md bg-background text-foreground text-sm sm:text-base"
                 value={newItem.buyer}
                 onChange={(e) => setNewItem({ ...newItem, buyer: e.target.value })}
                 required
@@ -149,10 +152,10 @@ export default function BazaarPage() {
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category" className="text-sm sm:text-base">Category</Label>
               <select
                 id="category"
-                className="w-full p-2 border border-input rounded-md bg-background text-foreground"
+                className="w-full p-2 sm:p-3 border border-input rounded-md bg-background text-foreground text-sm sm:text-base"
                 value={newItem.category}
                 onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
               >
@@ -164,8 +167,8 @@ export default function BazaarPage() {
                 <option value="Others">Others</option>
               </select>
             </div>
-            <div className="md:col-span-5">
-              <Button type="submit" className="w-full md:w-auto">
+            <div className="sm:col-span-2 lg:col-span-5">
+              <Button type="submit" className="w-full sm:w-auto h-10 sm:h-11">
                 Add Item
               </Button>
             </div>
@@ -176,60 +179,69 @@ export default function BazaarPage() {
       {/* Bazaar Items Table */}
       <Card>
         <CardHeader>
-          <CardTitle>All Bazaar Items</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">All Bazaar Items</CardTitle>
           <CardDescription>Complete list of shopping expenses</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Item</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Cost</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Buyer</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {bazaarWithBuyers.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.item}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{item.category}</Badge>
-                  </TableCell>
-                  <TableCell className="font-medium">৳{item.cost.toLocaleString()}</TableCell>
-                  <TableCell>{item.date}</TableCell>
-                  <TableCell>{item.buyer}</TableCell>
-                  <TableCell>
-                    <Button variant="outline" size="sm">
-                      Edit
-                    </Button>
-                  </TableCell>
+          <div className="table-responsive">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-xs sm:text-sm">Item</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Category</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Cost</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Date</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Buyer</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {bazaarWithBuyers.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      <div className="min-w-0">
+                        <div className="font-medium text-sm sm:text-base truncate">{item.item}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground sm:hidden">
+                          {item.category} • {item.buyer}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">
+                      <Badge variant="outline" className="text-xs sm:text-sm">{item.category}</Badge>
+                    </TableCell>
+                    <TableCell className="font-medium text-sm sm:text-base">৳{item.cost.toLocaleString()}</TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm">{item.date}</TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm">{item.buyer}</TableCell>
+                    <TableCell>
+                      <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
 
       {/* Category Summary */}
       <Card>
         <CardHeader>
-          <CardTitle>Category Summary</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Category Summary</CardTitle>
           <CardDescription>Breakdown by category</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
             {["Grains", "Vegetables", "Protein", "Cooking", "Spices", "Others"].map((category) => {
               const categoryTotal = bazaarItems
                 .filter(item => item.category === category)
                 .reduce((sum, item) => sum + item.cost, 0);
               
               return (
-                <div key={category} className="text-center p-4 bg-muted rounded-lg">
-                  <div className="text-sm font-medium text-muted-foreground">{category}</div>
-                  <div className="text-lg font-bold">৳{categoryTotal.toLocaleString()}</div>
+                <div key={category} className="text-center p-3 sm:p-4 bg-muted rounded-lg">
+                  <div className="text-xs sm:text-sm font-medium text-muted-foreground">{category}</div>
+                  <div className="text-sm sm:text-lg font-bold">৳{categoryTotal.toLocaleString()}</div>
                 </div>
               );
             })}

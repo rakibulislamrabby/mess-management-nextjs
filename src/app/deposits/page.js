@@ -83,28 +83,28 @@ export default function DepositsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Total Deposits Display */}
       <div className="flex justify-end">
         <div className="text-right">
-          <div className="text-2xl font-bold text-green-600">৳{totalDeposits.toLocaleString()}</div>
-          <div className="text-sm text-muted-foreground">Total Deposits</div>
+          <div className="text-xl sm:text-2xl font-bold text-green-600">৳{totalDeposits.toLocaleString()}</div>
+          <div className="text-xs sm:text-sm text-muted-foreground">Total Deposits</div>
         </div>
       </div>
 
       {/* Add New Deposit Form */}
       <Card>
         <CardHeader>
-          <CardTitle>Add New Deposit</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Add New Deposit</CardTitle>
           <CardDescription>Record a new member contribution</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleAddDeposit} className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <form onSubmit={handleAddDeposit} className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-5 sm:gap-4">
             <div className="space-y-2">
-              <Label htmlFor="member">Member Name</Label>
+              <Label htmlFor="member" className="text-sm sm:text-base">Member Name</Label>
               <select
                 id="member"
-                className="w-full p-2 border border-input rounded-md bg-background text-foreground"
+                className="w-full p-2 sm:p-3 border border-input rounded-md bg-background text-foreground text-sm sm:text-base"
                 value={newDeposit.member}
                 onChange={(e) => setNewDeposit({ ...newDeposit, member: e.target.value })}
                 required
@@ -118,7 +118,7 @@ export default function DepositsPage() {
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="amount">Amount (৳)</Label>
+              <Label htmlFor="amount" className="text-sm sm:text-base">Amount (৳)</Label>
               <Input
                 id="amount"
                 type="number"
@@ -126,23 +126,25 @@ export default function DepositsPage() {
                 value={newDeposit.amount}
                 onChange={(e) => setNewDeposit({ ...newDeposit, amount: e.target.value })}
                 required
+                className="text-sm sm:text-base"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
+              <Label htmlFor="date" className="text-sm sm:text-base">Date</Label>
               <Input
                 id="date"
                 type="date"
                 value={newDeposit.date}
                 onChange={(e) => setNewDeposit({ ...newDeposit, date: e.target.value })}
                 required
+                className="text-sm sm:text-base"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="method">Payment Method</Label>
+              <Label htmlFor="method" className="text-sm sm:text-base">Payment Method</Label>
               <select
                 id="method"
-                className="w-full p-2 border border-input rounded-md bg-background text-foreground"
+                className="w-full p-2 sm:p-3 border border-input rounded-md bg-background text-foreground text-sm sm:text-base"
                 value={newDeposit.method}
                 onChange={(e) => setNewDeposit({ ...newDeposit, method: e.target.value })}
               >
@@ -153,16 +155,17 @@ export default function DepositsPage() {
               </select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="note">Note</Label>
+              <Label htmlFor="note" className="text-sm sm:text-base">Note</Label>
               <Input
                 id="note"
                 placeholder="Optional note"
                 value={newDeposit.note}
                 onChange={(e) => setNewDeposit({ ...newDeposit, note: e.target.value })}
+                className="text-sm sm:text-base"
               />
             </div>
-            <div className="md:col-span-5">
-              <Button type="submit" className="w-full md:w-auto">
+            <div className="sm:col-span-2 lg:col-span-5">
+              <Button type="submit" className="w-full sm:w-auto h-10 sm:h-11">
                 Add Deposit
               </Button>
             </div>
@@ -173,60 +176,69 @@ export default function DepositsPage() {
       {/* Deposits Table */}
       <Card>
         <CardHeader>
-          <CardTitle>All Deposits</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">All Deposits</CardTitle>
           <CardDescription>Complete list of member contributions</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Member</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead>Note</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {depositsWithMembers.map((deposit) => (
-                <TableRow key={deposit.id}>
-                  <TableCell className="font-medium">{deposit.member}</TableCell>
-                  <TableCell className="font-medium text-green-600">৳{deposit.amount.toLocaleString()}</TableCell>
-                  <TableCell>{deposit.date}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{deposit.method}</Badge>
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">{deposit.note}</TableCell>
-                  <TableCell>
-                    <Button variant="outline" size="sm">
-                      Edit
-                    </Button>
-                  </TableCell>
+          <div className="table-responsive">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-xs sm:text-sm">Member</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Amount</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Date</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden sm:table-cell">Method</TableHead>
+                  <TableHead className="text-xs sm:text-sm hidden lg:table-cell">Note</TableHead>
+                  <TableHead className="text-xs sm:text-sm">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {depositsWithMembers.map((deposit) => (
+                  <TableRow key={deposit.id}>
+                    <TableCell>
+                      <div className="min-w-0">
+                        <div className="font-medium text-sm sm:text-base truncate">{deposit.member}</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground sm:hidden">
+                          {deposit.date} • {deposit.method}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-medium text-sm sm:text-base text-green-600">৳{deposit.amount.toLocaleString()}</TableCell>
+                    <TableCell className="hidden sm:table-cell text-sm">{deposit.date}</TableCell>
+                    <TableCell className="hidden sm:table-cell">
+                      <Badge variant="outline" className="text-xs sm:text-sm">{deposit.method}</Badge>
+                    </TableCell>
+                    <TableCell className="hidden lg:table-cell text-sm text-muted-foreground truncate">{deposit.note}</TableCell>
+                    <TableCell>
+                      <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
 
       {/* Payment Method Summary */}
       <Card>
         <CardHeader>
-          <CardTitle>Payment Method Summary</CardTitle>
+          <CardTitle className="text-lg sm:text-xl">Payment Method Summary</CardTitle>
           <CardDescription>Breakdown by payment method</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
             {["Cash", "Bank Transfer", "Mobile Banking", "Check"].map((method) => {
               const methodTotal = deposits
                 .filter(deposit => deposit.method === method)
                 .reduce((sum, deposit) => sum + deposit.amount, 0);
               
               return (
-                <div key={method} className="text-center p-4 bg-muted rounded-lg">
-                  <div className="text-sm font-medium text-muted-foreground">{method}</div>
-                  <div className="text-lg font-bold text-green-600">৳{methodTotal.toLocaleString()}</div>
+                <div key={method} className="text-center p-3 sm:p-4 bg-muted rounded-lg">
+                  <div className="text-xs sm:text-sm font-medium text-muted-foreground">{method}</div>
+                  <div className="text-sm sm:text-lg font-bold text-green-600">৳{methodTotal.toLocaleString()}</div>
                 </div>
               );
             })}

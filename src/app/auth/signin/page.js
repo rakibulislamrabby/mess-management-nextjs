@@ -40,66 +40,70 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">Sign In</CardTitle>
-          <CardDescription className="text-center">
-            Enter your credentials to access your mess
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                <p className="text-sm text-destructive">{error}</p>
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="w-full max-w-md">
+        <Card className="w-full">
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-xl sm:text-2xl">Sign In</CardTitle>
+            <CardDescription className="text-sm sm:text-base">
+              Enter your credentials to access your mess
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                  <p className="text-sm text-destructive">{error}</p>
+                </div>
+              )}
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm sm:text-base">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  disabled={isLoading}
+                  className="h-10 sm:h-11"
+                />
               </div>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                disabled={isLoading}
-              />
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-sm sm:text-base">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                  disabled={isLoading}
+                  className="h-10 sm:h-11"
+                />
+              </div>
+              <Button type="submit" className="w-full h-10 sm:h-11" disabled={isLoading}>
+                {isLoading ? "Signing In..." : "Sign In"}
+              </Button>
+            </form>
+            <div className="text-center text-sm sm:text-base">
+              Don't have an account?{" "}
+              <Link href="/auth/signup" className="text-primary hover:underline">
+                Sign up
+              </Link>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                required
-                disabled={isLoading}
-              />
+            
+            {/* Demo Credentials */}
+            <div className="mt-6 p-3 sm:p-4 bg-muted rounded-lg">
+              <h4 className="text-sm font-medium text-foreground mb-2">Demo Credentials:</h4>
+              <div className="text-xs sm:text-sm text-muted-foreground space-y-1">
+                <p><strong>Admin:</strong> john@example.com / password123</p>
+                <p><strong>Member:</strong> mike@example.com / password123</p>
+              </div>
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Signing In..." : "Sign In"}
-            </Button>
-          </form>
-          <div className="mt-4 text-center text-sm">
-            Don't have an account?{" "}
-            <Link href="/auth/signup" className="text-primary hover:underline">
-              Sign up
-            </Link>
-          </div>
-          
-          {/* Demo Credentials */}
-          <div className="mt-6 p-4 bg-muted rounded-lg">
-            <h4 className="text-sm font-medium text-foreground mb-2">Demo Credentials:</h4>
-            <div className="text-xs text-muted-foreground space-y-1">
-              <p><strong>Admin:</strong> john@example.com / password123</p>
-              <p><strong>Member:</strong> mike@example.com / password123</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

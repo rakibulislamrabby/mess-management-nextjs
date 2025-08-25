@@ -55,6 +55,75 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Improve text rendering on mobile */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Better touch targets for mobile */
+  button, a, input, select, textarea {
+    @apply touch-manipulation;
+  }
+}
+
+@layer components {
+  /* Responsive container utilities */
+  .container-responsive {
+    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 1200px;
+  }
+  
+  /* Mobile-first responsive grid */
+  .responsive-grid {
+    @apply grid gap-4 sm:gap-6;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  /* Responsive card grid */
+  .card-grid {
+    @apply grid gap-4 sm:gap-6;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  /* Responsive table wrapper */
+  .table-responsive {
+    @apply overflow-x-auto -mx-4 sm:mx-0;
+  }
+  
+  .table-responsive table {
+    @apply min-w-full;
+  }
+  
+  /* Mobile navigation styles */
+  .mobile-nav {
+    @apply fixed inset-0 z-50 bg-background/95 backdrop-blur-sm lg:hidden;
+  }
+  
+  .mobile-nav-content {
+    @apply flex flex-col h-full;
+  }
+  
+  /* Responsive text utilities */
+  .text-responsive {
+    @apply text-sm sm:text-base lg:text-lg;
+  }
+  
+  .heading-responsive {
+    @apply text-xl sm:text-2xl lg:text-3xl xl:text-4xl;
+  }
+  
+  /* Responsive spacing */
+  .section-responsive {
+    @apply py-6 sm:py-8 lg:py-12;
+  }
+  
+  .container-responsive {
+    @apply px-4 sm:px-6 lg:px-8;
   }
 }
 
@@ -93,4 +162,41 @@
 
 .dark .border-gray-300 {
   @apply border-gray-600;
+}
+
+/* Responsive utilities for better mobile experience */
+@media (max-width: 640px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+  
+  .mobile-block {
+    display: block !important;
+  }
+  
+  .mobile-flex {
+    display: flex !important;
+  }
+}
+
+/* Tablet specific styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tablet-hidden {
+    display: none !important;
+  }
+  
+  .tablet-block {
+    display: block !important;
+  }
+}
+
+/* Desktop specific styles */
+@media (min-width: 1025px) {
+  .desktop-hidden {
+    display: none !important;
+  }
+  
+  .desktop-block {
+    display: block !important;
+  }
 }

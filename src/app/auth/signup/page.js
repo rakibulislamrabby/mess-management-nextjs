@@ -74,128 +74,134 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">Create Account</CardTitle>
-          <CardDescription className="text-center">
-            Join the mess management system
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
-                <p className="text-sm text-destructive">{error}</p>
-              </div>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Enter your full name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Create a password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirm your password"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Role</Label>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant={formData.role === "member" ? "default" : "outline"}
-                  onClick={() => setFormData({ ...formData, role: "member" })}
-                  className="flex-1"
-                  disabled={isLoading}
-                >
-                  <Badge variant="secondary" className="mr-2">Member</Badge>
-                  Join Mess
-                </Button>
-                <Button
-                  type="button"
-                  variant={formData.role === "admin" ? "default" : "outline"}
-                  onClick={() => setFormData({ ...formData, role: "admin" })}
-                  className="flex-1"
-                  disabled={isLoading}
-                >
-                  <Badge variant="secondary" className="mr-2">Admin</Badge>
-                  Create Mess
-                </Button>
-              </div>
-            </div>
-            
-            {formData.role === "member" && (
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="w-full max-w-md">
+        <Card className="w-full">
+          <CardHeader className="space-y-1 text-center">
+            <CardTitle className="text-xl sm:text-2xl">Create Account</CardTitle>
+            <CardDescription className="text-sm sm:text-base">
+              Join the mess management system
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+                  <p className="text-sm text-destructive">{error}</p>
+                </div>
+              )}
               <div className="space-y-2">
-                <Label htmlFor="messId">Select Mess</Label>
-                <select
-                  id="messId"
-                  className="w-full p-2 border border-input rounded-md bg-background text-foreground"
-                  value={formData.messId}
-                  onChange={(e) => setFormData({ ...formData, messId: e.target.value })}
+                <Label htmlFor="name" className="text-sm sm:text-base">Full Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   disabled={isLoading}
-                >
-                  <option value="">Select a mess to join</option>
-                  {availableMesses.map((mess) => (
-                    <option key={mess.id} value={mess.id}>
-                      {mess.name} - {mess.address}
-                    </option>
-                  ))}
-                </select>
+                  className="h-10 sm:h-11"
+                />
               </div>
-            )}
-            
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating Account..." : "Create Account"}
-            </Button>
-          </form>
-          <div className="mt-4 text-center text-sm">
-            Already have an account?{" "}
-            <Link href="/auth/signin" className="text-primary hover:underline">
-              Sign in
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm sm:text-base">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  disabled={isLoading}
+                  className="h-10 sm:h-11"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-sm sm:text-base">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Create a password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  required
+                  disabled={isLoading}
+                  className="h-10 sm:h-11"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="text-sm sm:text-base">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirm your password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  required
+                  disabled={isLoading}
+                  className="h-10 sm:h-11"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm sm:text-base">Role</Label>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button
+                    type="button"
+                    variant={formData.role === "member" ? "default" : "outline"}
+                    onClick={() => setFormData({ ...formData, role: "member" })}
+                    className="flex-1 h-10 sm:h-11"
+                    disabled={isLoading}
+                  >
+                    <Badge variant="secondary" className="mr-2 text-xs">Member</Badge>
+                    <span className="text-xs sm:text-sm">Join Mess</span>
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={formData.role === "admin" ? "default" : "outline"}
+                    onClick={() => setFormData({ ...formData, role: "admin" })}
+                    className="flex-1 h-10 sm:h-11"
+                    disabled={isLoading}
+                  >
+                    <Badge variant="secondary" className="mr-2 text-xs">Admin</Badge>
+                    <span className="text-xs sm:text-sm">Create Mess</span>
+                  </Button>
+                </div>
+              </div>
+              
+              {formData.role === "member" && (
+                <div className="space-y-2">
+                  <Label htmlFor="messId" className="text-sm sm:text-base">Select Mess</Label>
+                  <select
+                    id="messId"
+                    className="w-full p-2 sm:p-3 border border-input rounded-md bg-background text-foreground text-sm sm:text-base h-10 sm:h-11"
+                    value={formData.messId}
+                    onChange={(e) => setFormData({ ...formData, messId: e.target.value })}
+                    required
+                    disabled={isLoading}
+                  >
+                    <option value="">Select a mess to join</option>
+                    {availableMesses.map((mess) => (
+                      <option key={mess.id} value={mess.id}>
+                        {mess.name} - {mess.address}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              
+              <Button type="submit" className="w-full h-10 sm:h-11" disabled={isLoading}>
+                {isLoading ? "Creating Account..." : "Create Account"}
+              </Button>
+            </form>
+            <div className="text-center text-sm sm:text-base">
+              Already have an account?{" "}
+              <Link href="/auth/signin" className="text-primary hover:underline">
+                Sign in
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
