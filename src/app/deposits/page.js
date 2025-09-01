@@ -30,7 +30,7 @@ export default function DepositsPage() {
       setDeposits(data.deposits);
       setUsers(data.users);
     }
-  }, []); // Removed getMessData from dependencies to prevent infinite re-renders
+  }, [getMessData]);
 
   const handleAddDeposit = (e) => {
     e.preventDefault();

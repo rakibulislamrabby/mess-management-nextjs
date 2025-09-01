@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import messData from "@/data/mess-data.json";
 
 const AuthContext = createContext();
@@ -76,7 +76,7 @@ export function AuthProvider({ children }) {
     return { success: true, user: newUser };
   };
 
-  const getMessData = () => {
+  const getMessData = useCallback(() => {
     if (!selectedMess) return null;
     
     const messUsers = messData.users.filter(u => u.messId === selectedMess.id);
@@ -91,7 +91,7 @@ export function AuthProvider({ children }) {
       deposits: messDeposits,
       bazaar: messBazaar
     };
-  };
+  }, [selectedMess]);
 
   const addMeal = (mealData) => {
     const newMeal = {

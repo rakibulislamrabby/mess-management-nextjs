@@ -15,7 +15,7 @@ export default function Dashboard() {
   useEffect(() => {
     const data = getMessData();
     setMessData(data);
-  }, []); // Removed getMessData from dependencies to prevent infinite re-renders
+  }, [getMessData]);
 
   if (!messData) {
     return (

@@ -87,7 +87,7 @@ export default function SignIn() {
               </Button>
             </form>
             <div className="text-center text-sm sm:text-base">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/auth/signup" className="text-primary hover:underline">
                 Sign up
               </Link>

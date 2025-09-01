@@ -30,7 +30,7 @@ export default function BazaarPage() {
       setBazaarItems(data.bazaar);
       setUsers(data.users);
     }
-  }, []); // Removed getMessData from dependencies to prevent infinite re-renders
+  }, [getMessData]);
 
   const handleAddItem = (e) => {
     e.preventDefault();

@@ -42,7 +42,7 @@ export default function MealsPage() {
       setMeals(data.meals);
       setUsers(data.users);
     }
-  }, []); // Removed getMessData from dependencies to prevent infinite re-renders
+  }, [getMessData]);
 
   const handleAddMeal = (e) => {
     e.preventDefault();
